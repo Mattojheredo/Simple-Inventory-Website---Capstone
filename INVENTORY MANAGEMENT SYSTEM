@@ -1,0 +1,101 @@
+NVENTORY MANAGEMENT SYSTEM
+PROJECT DOCUMENTATION
+
+1. Project Overview
+The Inventory Management System is a web-based application designed to help users manage and monitor items stored in an inventory. It allows users to add, view, update, delete, and track item quantities.
+
+The system aims to make inventory management easier, more organized, and more accurate.
+
+2. Objectives
+- To create a simple inventory management system.
+- To store inventory records permanently in a database.
+- To make adding, editing, and deleting items easier.
+- To monitor available item quantities.
+- To reduce manual inventory recording.
+
+3. Technologies Used
+HTML – Used to create the structure of the website.
+
+CSS – Used to style the website.
+
+JavaScript – Used to add interactive functions.
+
+PHP – Used for backend processing and communication with the database.
+
+SQLite – Used to store inventory information permanently.
+
+4. System Features
+1. Dashboard
+- Displays inventory information.
+- Shows the total number of items.
+- Shows available stock.
+- Displays low-stock items.
+
+2. Item Management
+- Add new inventory items.
+- View existing items.
+- Edit item information.
+- Delete inventory records.
+
+3. Stock Management
+- Add stock quantities.
+- Reduce stock quantities.
+- Display current available quantities.
+
+4. Search Function
+- Search for items by name or item code.
+
+5. Low-Stock Notification
+- Identify items with low quantities.
+- Display low-stock reminders.
+- Notify users when items need restocking.
+
+6. Database Storage
+- Stores inventory information permanently.
+- Retrieves saved records when the system is opened again.
+
+5. Inventory Information
+Each inventory record may contain:
+- Item ID
+- Item Name
+- Item Code
+- Description
+- Quantity
+- Unit Price
+- Date Added
+- Time Added
+- Minimum Stock Level
+
+6. System Workflow
+1. The user opens the inventory website.
+2. The system retrieves inventory records from the database.
+3. The user can add, edit, delete, or search for items.
+4. PHP processes the submitted information.
+5. SQLite stores or updates the records.
+6. The updated inventory is displayed on the website.
+
+7. Database
+The system uses SQLite to store inventory information.
+
+Database Table:
+id - Unique item identifier
+item_name - Name of the item
+item_code - Item identification code
+description - Item details
+quantity - Available stock
+unit_price - Price per item
+minimum_stock - Minimum stock level
+date_added - Date the item was registered
+
+8. Development Environment
+- Visual Studio Code – Code editor
+- PHP – Backend programming
+- PHP Built-in Development Server (still not sure kung id-deploy ba or locally)
+- SQLite – Database management
+- Web Browser – Displays the website
+
+9. Expected Output
+The finished system should allow users to manage inventory records through a simple website. Changes made to inventory records should be saved in the database and remain available after closing and reopening the website.
+
+10. Conclusion
+The Inventory Management System provides a simple way to organize and monitor inventory records. By using PHP and SQLite, the system can process information and store records permanently, making inventory management more convenient and efficient.
