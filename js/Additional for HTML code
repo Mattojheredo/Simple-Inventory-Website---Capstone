@@ -1,2 +1,95 @@
-<div id="low-stock-box"></div>
-<script src="js/low-stock.js"></script>
+/*
+  low-stock.js - Avila
+
+  Shows a "Restock needed" box for items that are low or out of stock.
+
+  How to use it on your page:
+  1. In your HTML, add this above your own <script> tag so it loads first:
+     <script src="js/low-stock.js"></script>
+  2. In your JS, after your items are loaded, call:
+     LowStockAlert.render(items, 'low-stock-box');
+     Call it again after you add, edit or delete an item.
+  3. (Optional) To choose where the alert appears, put this in your HTML.
+     If you skip it, the alert shows at the top of the page:
+     <div id="low-stock-box"></div>
+
+  Each item needs name, quantity and restock_level.
+  Example: { name: 'Ballpen', quantity: 3, restock_level: 5 }
+
+  Low means quantity is at or below restock_level.
+  Out of stock means quantity is 0.
+  The box hides itself when nothing is low.
+*/
+
+
+
+======================================================================================
+
+
+
+const LOW_STOCK_FIELDS = {
+    name: 'name',
+    quantity: 'quantity',
+    restockLevel: 'restock_level'
+};
+
+const LowStockAlert = (function () {
+
+    function getStatus(item) {
+        const qty = Number(item[LOW_STOCK_FIELDS.quantity]);
+        const level = Number(item[LOW_STOCK_FIELDS.restockLevel]);
+        if (!Number.isFinite(qty) || !Number.isFinite(level)) return 'ok';
+        if (qty === 0) return 'out';
+        if (qty <= level) return 'low';
+        return 'ok';
+    }
+
+    function getLowItems(items) {
+        return items
+            .filter(function (item) { return getStatus(item) !== 'ok'; })
+            .sort(function (a, b) {
+                return Number(a[LOW_STOCK_FIELDS.quantity]) - Number(b[LOW_STOCK_FIELDS.quantity]);
+            });
+    }
+
+    function findBox(container) {
+        if (typeof container !== 'string') return container;
+        let box = document.getElementById(container);
+        if (!box) {
+            box = document.createElement('div');
+            box.id = container;
+            const anchor = document.querySelector('main') || document.body;
+            anchor.insertBefore(box, anchor.firstChild);
+        }
+        return box;
+    }
+
+    function render(items, container) {
+        const box = findBox(container);
+        if (!box) return;
+
+        const low = getLowItems(items);
+        box.innerHTML = '';
+        box.classList.add('low-stock-alert');
+        box.hidden = low.length === 0;
+        if (low.length === 0) return;
+
+        const title = document.createElement('strong');
+        title.textContent = 'Restock needed (' + low.length + ' item' + (low.length === 1 ? '' : 's') + ')';
+        box.appendChild(title);
+
+        const list = document.createElement('ul');
+        low.forEach(function (item) {
+            const status = getStatus(item);
+            const li = document.createElement('li');
+            li.className = 'low-stock-' + status;
+            li.textContent = item[LOW_STOCK_FIELDS.name] + ' - ' +
+                (status === 'out' ? 'OUT OF STOCK' : item[LOW_STOCK_FIELDS.quantity] + ' left') +
+                ' (restock level: ' + item[LOW_STOCK_FIELDS.restockLevel] + ')';
+            list.appendChild(li);
+        });
+        box.appendChild(list);
+    }
+
+    return { getStatus: getStatus, getLowItems: getLowItems, render: render };
+})();
