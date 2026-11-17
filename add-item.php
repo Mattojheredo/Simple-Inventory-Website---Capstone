@@ -1,7 +1,7 @@
 <?php
 include 'includes/db.php';
 
-// Siguraduhing may 'items' table sa inventory.db (mula sa schema.sql ninyo)
+
 $db->exec("CREATE TABLE IF NOT EXISTS items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
