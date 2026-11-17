@@ -1,0 +1,300 @@
+/* Font: loaded here so you don't need to edit every HTML page */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* ---------- Reset ---------- */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #0B132B;
+  color: #E6EAF2;
+}
+
+/* ---------- Layout ---------- */
+.wrapper {
+  display: flex;
+  position: relative;
+}
+
+.wrapper .main-content {
+  flex: 1;
+  min-width: 0;
+  margin-left: 250px;
+  padding: 32px;
+  transition: margin-left 0.2s;
+}
+
+.wrapper .main-content header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.wrapper .main-content p {
+  max-width: 65ch;
+  line-height: 1.6;
+  color: #B8C1D9;
+}
+
+/* ---------- Dashboard cards ---------- */
+.main-content .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.main-content .card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 140px;
+  padding: 24px;
+  background-color: #111A33;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+}
+
+.main-content .card-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #B8C1D9;
+}
+
+/* the number will go here later */
+.main-content .card-value {
+  flex: 1;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ---------- Sidebar ---------- */
+.wrapper .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  padding: 12px;
+  background-color: #111A33;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: width 0.2s;
+}
+
+#toggle {
+  background: none;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 12px;
+  transition: background-color 0.2s;
+}
+
+#toggle:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.wrapper .sidebar .brand-name {
+  padding: 0 12px;
+  margin: 8px 0 20px;
+}
+
+.wrapper .sidebar .brand-name a {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* ---------- Menu items (flat rows, no pills) ---------- */
+.wrapper .sidebar ul li {
+  margin-bottom: 4px;
+}
+
+.wrapper .sidebar ul li a,
+.sidebar summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #C9D1E3;
+  white-space: nowrap;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.sidebar summary::-webkit-details-marker {
+  display: none;
+}
+
+/* icons keep their size even when a label is long */
+.sidebar .material-symbols-outlined {
+  flex-shrink: 0;
+}
+
+/* hover */
+.wrapper .sidebar ul li a:hover,
+.sidebar summary:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+/* active page  */
+.wrapper .sidebar ul li a.active,
+.sidebar summary.active {
+  background-color: rgba(91, 192, 190, 0.15);
+  color: #5BC0BE;
+}
+
+/* keyboard focus */
+.wrapper .sidebar a:focus-visible,
+.sidebar summary:focus-visible,
+#toggle:focus-visible {
+  outline: 2px solid #5BC0BE;
+  outline-offset: 2px;
+}
+
+/* ---------- Dropdowns (details / summary) ---------- */
+.sidebar summary .arrow {
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.sidebar details[open] > summary .arrow {
+  transform: rotate(-90deg);
+}
+
+/* submenu: a thin guide line instead of nested pills */
+.sidebar .submenu {
+  margin: 4px 0 4px 22px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.wrapper .sidebar .submenu li a {
+  padding-left: 14px;
+}
+
+/* the line replaces the old circle bullet */
+.sidebar .dot {
+  display: none;
+}
+
+/* ---------- Welcome page (index.html) ---------- */
+.wrapper-index {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper-index .welcome-page {
+  width: 75%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  text-align: center;
+}
+
+.wrapper-index .welcome-page h1 {
+  color: #fff;
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.wrapper-index .welcome-page .start-btn {
+  background-color: #5BC0BE;
+  color: #0B132B;
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+}
+
+.wrapper-index .welcome-page .start-btn:hover {
+  background-color: #7AD0CE;
+}
+
+/* ---------- Collapsed state (all in one place) ---------- */
+.wrapper.collapsed .sidebar {
+  width: 72px;
+}
+
+.wrapper.collapsed .main-content {
+  margin-left: 72px;
+}
+
+.wrapper.collapsed .sidebar .text,
+.wrapper.collapsed .sidebar .arrow,
+.wrapper.collapsed .sidebar .submenu {
+  display: none;
+}
+
+
+/* ---------- Items page (groupmate's design) ---------- */
+/* Everything here only applies inside an element with class="items-page". */
+.items-page{--bg:#0d1020;--panel:#161a30;--line:#2a3050;--text:#e8eaf6;--muted:#9aa0c0;--accent:#3f5fa8;--ok:#1f9d55;--low:#d64545;color:var(--text)}
+.items-page .layout{display:flex}
+.items-page main{flex:1;min-width:0}
+.items-page h1{margin:0 0 16px;font-size:22px;font-weight:600;color:#fff}
+
+/* form controls don't inherit the page font by default */
+.items-page input,.items-page select,.items-page button{font-family:inherit}
+
+.items-page .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.items-page .toolbar input,.items-page .toolbar select{padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--text);font-size:14px}
+.items-page .toolbar input{flex:1;min-width:160px}
+
+.items-page .btn{padding:9px 14px;border:0;border-radius:6px;color:#fff;font-size:14px;cursor:pointer;text-decoration:none;display:inline-block}
+.items-page .btn-add{background:var(--ok)}
+.items-page .btn-clear{background:var(--accent)}
+.items-page .btn-edit{background:#2f6fdb;padding:6px 10px}
+.items-page .btn-del{background:var(--low);padding:6px 10px}
+
+.items-page .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.items-page table{width:100%;border-collapse:collapse;background:var(--panel);font-size:14px}
+.items-page th,.items-page td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.items-page th{background:#1d2342;color:var(--muted);font-weight:600}
+.items-page tbody tr:hover{background:#1c2140}
+
+.items-page .empty{text-align:center;color:var(--muted);padding:24px}
+.items-page .count{margin-top:10px;color:var(--muted);font-size:13px}
+
+/* ---------- Items row: label is a link, arrow opens the dropdown ---------- */
+.sidebar summary {
+  padding: 0;
+}
+
+.wrapper .sidebar ul li summary a,
+.wrapper .sidebar ul li summary a:hover,
+.wrapper .sidebar ul li summary a.active {
+  flex: 1;
+  background: none;
+  color: inherit;
+}
+
+.sidebar summary .arrow {
+  padding: 10px 12px;
+}
+
+/* ---------- Respect "reduce motion" settings ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

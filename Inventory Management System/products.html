@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+</head>
+<body>
+  <div class="wrapper">
+    <nav class="sidebar">
+  <button id="toggle" aria-label="Toggle menu">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+
+  <div class="brand-name">
+    <a href="index.html"><span class="text">IMS</span></a>
+  </div>
+
+  <ul>
+    <li>
+      <a href="dashboard.html">
+        <span class="material-symbols-outlined">home</span>
+        <span class="text">Dashboard</span>
+      </a>
+    </li>
+
+    <li>
+  <details>
+    <summary>
+      <a href="products.html">
+        <span class="material-symbols-outlined">inventory_2</span>
+        <span class="text">Items</span>
+      </a>
+      <span class="material-symbols-outlined arrow">chevron_left</span>
+    </summary>
+    <ul class="submenu">
+      <li><a href="view-products.html"><span class="text">View Items</span></a></li>
+      <li><a href="add-item.html"><span class="text">Add Item</span></a></li>
+    </ul>
+  </details>
+</li>
+
+    <li>
+      <a href="history.html">
+        <span class="material-symbols-outlined">history</span>
+        <span class="text">History</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="grocery-list.html">
+        <span class="material-symbols-outlined">checklist</span>
+        <span class="text">Grocery List</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+    <div class="main-content items-page">
+    <div class="layout">
+
+  <main>
+    <h1>ITEMS</h1>
+
+    <div class="toolbar">
+      <a href="add-item.html" class="btn btn-add">+ Add Item</a>
+      <input type="text" id="searchInput" placeholder="Search by name">
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+        <option value="Bakery">Bakery</option>
+        <option value="Beverages">Beverages</option>
+        <option value="Dairy">Dairy</option>
+        <option value="Household">Household</option>
+        <option value="Pantry">Pantry</option>
+      </select>
+      <button class="btn btn-clear" id="clearBtn" type="button">Clear</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Date Added</th>
+            <th>Restock Level</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="itemsBody">
+          <tr data-id="1">
+            <td>Rice</td>
+            <td>Pantry</td>
+            <td>25</td>
+            <td>₱45.00</td>
+            <td>Nov 17, 2026</td>
+            <td>10</td>
+            <td>
+              <a class="btn btn-edit" href="edit-item.html?id=1">Edit</a>
+              <button class="btn btn-del" type="button" data-id="1">Delete</button>
+            </td>
+          </tr>
+          <tr data-id="2">
+            <td>Milk</td>
+            <td>Dairy</td>
+            <td>3</td>
+            <td>₱52.00</td>
+            <td>Nov 16, 2026</td>
+            <td>6</td>
+            <td>
+              <a class="btn btn-edit" href="edit-item.html?id=2">Edit</a>
+              <button class="btn btn-del" type="button" data-id="2">Delete</button>
+            </td>
+          </tr>
+          <tr data-id="3">
+            <td>Bread</td>
+            <td>Bakery</td>
+            <td>14</td>
+            <td>₱30.00</td>
+            <td>Nov 15, 2026</td>
+            <td>5</td>
+            <td>
+              <a class="btn btn-edit" href="edit-item.html?id=3">Edit</a>
+              <button class="btn btn-del" type="button" data-id="3">Delete</button>
+            </td>
+          </tr>
+          <tr data-id="4">
+            <td>Coffee</td>
+            <td>Beverages</td>
+            <td>18</td>
+            <td>₱120.00</td>
+            <td>Nov 14, 2026</td>
+            <td>6</td>
+            <td>
+              <a class="btn btn-edit" href="edit-item.html?id=4">Edit</a>
+              <button class="btn btn-del" type="button" data-id="4">Delete</button>
+            </td>
+          </tr>
+          <tr data-id="5">
+            <td>Dishwashing Liquid</td>
+            <td>Household</td>
+            <td>9</td>
+            <td>₱65.00</td>
+            <td>Nov 12, 2026</td>
+            <td>4</td>
+            <td>
+              <a class="btn btn-edit" href="edit-item.html?id=5">Edit</a>
+              <button class="btn btn-del" type="button" data-id="5">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+  
+</body>
+</html>
