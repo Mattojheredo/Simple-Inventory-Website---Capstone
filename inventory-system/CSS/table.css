@@ -1,0 +1,56 @@
+.items-page{--bg:#0d1020;--panel:#161a30;--line:#2a3050;--text:#e8eaf6;--muted:#9aa0c0;--accent:#3f5fa8;--ok:#1f9d55;--low:#d64545;font-family:Arial,sans-serif;color:var(--text);color-scheme:dark}
+.items-page .layout{display:flex;min-height:100vh;background:var(--bg)}
+.items-page main{flex:1;padding:24px;min-width:0}
+.items-page h1{margin:0 0 16px;font-size:22px}
+
+.items-page .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.items-page .toolbar input,.items-page .toolbar select{padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--text);font-size:14px}
+.items-page .toolbar input{flex:1;min-width:160px}
+
+.items-page .btn{padding:9px 14px;border:0;border-radius:6px;color:#fff;font-size:14px;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block}
+.items-page .btn-add{background:var(--ok)}
+.items-page .btn-clear{background:var(--accent)}
+.items-page .btn-edit{background:#2f6fdb;padding:6px 10px}
+.items-page .btn-del{background:var(--low);padding:6px 10px}
+
+.items-page .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.items-page table{width:100%;border-collapse:collapse;background:var(--panel);font-size:14px}
+.items-page th,.items-page td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.items-page th{background:#1d2342;color:var(--muted);font-weight:600}
+.items-page tbody tr:hover{background:#1c2140}
+.items-page .empty{text-align:center;color:var(--muted);padding:24px}
+
+/* ---- Additions needed by the editable table ---- */
+
+/* Remove the browser's default page margin so the dark background fills the screen */
+body.items-page{margin:0}
+
+/* Search button in the toolbar */
+.items-page .btn-search{background:#2f6fdb}
+
+/* Editable cells: look like text until hovered or focused */
+.items-page td input{width:100%;min-width:80px;padding:6px 8px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--text);font:inherit}
+.items-page td input:hover{border-color:var(--line)}
+.items-page td input:focus{outline:none;border-color:var(--accent);background:var(--bg)}
+.items-page td:first-child input{min-width:160px}
+
+/* "Add item" row at the top of the table */
+.items-page tr.add-row{background:#1a1f3c}
+.items-page tr.add-row input{border-color:var(--line);background:var(--bg)}
+
+/* Low stock: red edge on the left */
+.items-page tr.low{background:rgba(214,69,69,.1)}
+.items-page tr.low td:first-child{box-shadow:inset 4px 0 0 var(--low)}
+
+/* Date column and action buttons */
+.items-page td:nth-child(6){color:var(--muted);font-size:13px}
+.items-page td.actions{display:table-cell}
+.items-page td.actions .btn{margin-right:4px}
+
+/* Error message */
+.items-page .error{margin:0 0 14px;padding:10px 12px;color:#ffb4b4;background:rgba(214,69,69,.15);border-left:4px solid var(--low);border-radius:6px}
+
+/* Visible keyboard focus on buttons and links */
+.items-page .btn:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+
+.items-page .btn:focus-visible{outline:2px solid var(--text);outline-offset:2px}
