@@ -1,0 +1,140 @@
+const LOW_STOCK_FIELDS = {
+    name: 'name',
+    quantity: 'quantity',
+    restockLevel: 'restock_level'
+};
+
+const LowStockAlert = (function () {
+
+    function getStatus(item) {
+        const qty = Number(item[LOW_STOCK_FIELDS.quantity]);
+        const level = Number(item[LOW_STOCK_FIELDS.restockLevel]);
+        if (!Number.isFinite(qty) || !Number.isFinite(level)) return 'ok';
+        if (qty === 0) return 'out';
+        if (qty <= level) return 'low';
+        return 'ok';
+    }
+
+    function getLowItems(items) {
+        return items
+            .filter(function (item) { return getStatus(item) !== 'ok'; })
+            .sort(function (a, b) {
+                return Number(a[LOW_STOCK_FIELDS.quantity]) - Number(b[LOW_STOCK_FIELDS.quantity]);
+            });
+    }
+
+    function findBox(container) {
+        if (typeof container !== 'string') return container;
+        let box = document.getElementById(container);
+        if (!box) {
+            box = document.createElement('div');
+            box.id = container;
+            const anchor = document.querySelector('main') || document.body;
+            anchor.insertBefore(box, anchor.firstChild);
+        }
+        return box;
+    }
+
+    // Scrolls to the item's row in the table with id="items-section" and highlights it
+    function goToItem(name) {
+        const section = document.getElementById('items-section');
+        if (!section) return;
+        closePopup();
+
+        let found = section;
+        section.querySelectorAll('tr').forEach(function (row) {
+            row.querySelectorAll('td, th').forEach(function (cell) {
+                if (cell.textContent.trim().toLowerCase() === String(name).trim().toLowerCase()) found = row;
+            });
+        });
+
+        found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (found !== section) {
+            found.style.outline = '3px solid #e0a100';
+            setTimeout(function () { found.style.outline = ''; }, 2500);
+        }
+    }
+
+    function makeList(low, clickable) {
+        const list = document.createElement('ul');
+        low.forEach(function (item) {
+            const status = getStatus(item);
+            const li = document.createElement('li');
+            li.className = 'low-stock-' + status;
+            li.textContent = item[LOW_STOCK_FIELDS.name] + ' - ' +
+                (status === 'out' ? 'OUT OF STOCK' : item[LOW_STOCK_FIELDS.quantity] + ' left') +
+                ' (restock level: ' + item[LOW_STOCK_FIELDS.restockLevel] + ')';
+            if (status === 'out') li.style.cssText = 'font-weight:bold;color:#8f2018;';
+            if (clickable && document.getElementById('items-section')) {
+                li.style.cursor = 'pointer';
+                li.style.textDecoration = 'underline dotted';
+                li.onclick = function () { goToItem(item[LOW_STOCK_FIELDS.name]); };
+            }
+            list.appendChild(li);
+        });
+        return list;
+    }
+
+    function openPopup(low) {
+        closePopup();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'low-stock-popup';
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;' +
+            'background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;';
+        overlay.onclick = function (event) {
+            if (event.target === overlay) closePopup();
+        };
+
+        const card = document.createElement('div');
+        card.style.cssText = 'background:#fff;color:#1c2330;padding:24px;border-radius:12px;' +
+            'border-top:6px solid #e0a100;max-width:420px;max-height:80vh;overflow:auto;font-family:system-ui,sans-serif;';
+
+        const title = document.createElement('h2');
+        title.textContent = 'Restock needed';
+        title.style.cssText = 'margin:0 0 12px;font-size:20px;color:#7a4b00;';
+        card.appendChild(title);
+        card.appendChild(makeList(low, true));
+
+        const close = document.createElement('button');
+        close.textContent = 'Close';
+        close.style.cssText = 'display:block;margin:16px auto 0;padding:8px 32px;cursor:pointer;';
+        close.onclick = closePopup;
+        card.appendChild(close);
+
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+    }
+
+    function closePopup() {
+        const old = document.getElementById('low-stock-popup');
+        if (old) old.remove();
+    }
+
+    function render(items, container) {
+        const box = findBox(container);
+        if (!box) return;
+
+        const low = getLowItems(items);
+        box.innerHTML = '';
+        box.classList.add('low-stock-alert');
+        box.hidden = low.length === 0;
+        if (low.length === 0) {
+            closePopup();
+            return;
+        }
+
+        // simple default look + click the box to open the popup
+        box.style.cssText = 'background:#fff4e0;border:1px solid #f0c36d;color:#7a4b00;' +
+            'border-radius:8px;padding:12px 16px;cursor:pointer;';
+        box.title = 'Click to open the restock popup';
+        box.onclick = function () { openPopup(low); };
+
+        const title = document.createElement('strong');
+        title.textContent = 'Restock needed (' + low.length + ' item' + (low.length === 1 ? '' : 's') + ')';
+        box.appendChild(title);
+        box.appendChild(makeList(low));
+    }
+
+    return { getStatus: getStatus, getLowItems: getLowItems, render: render };
+})();
