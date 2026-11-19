@@ -46,7 +46,10 @@ const LowStockAlert = (function () {
         box.innerHTML = '';
         box.classList.add('low-stock-alert');
         box.hidden = low.length === 0;
-        if (low.length === 0) return;
+        if (low.length === 0) {
+            box.style.cssText = 'display:none;';
+            return;
+        }
 
         // Red alert card, like the dashboard
         box.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:16px;' +
