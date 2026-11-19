@@ -26,6 +26,19 @@ const LowStockAlert = (function () {
             });
     }
 
+    // Builds the alert text, counting low and out of stock items separately
+    function getMessage(low) {
+        const outCount = low.filter(function (item) { return getStatus(item) === 'out'; }).length;
+        const lowCount = low.length - outCount;
+
+        const lowText = lowCount + (lowCount === 1 ? ' item is' : ' items are') + ' running low';
+        const outText = outCount + (outCount === 1 ? ' item is' : ' items are') + ' out of stock';
+
+        if (outCount === 0) return lowText + '!';
+        if (lowCount === 0) return outText + '!';
+        return lowCount + (lowCount === 1 ? ' item is' : ' items are') + ' running low, ' + outCount + ' out of stock!';
+    }
+
     function findBox(container) {
         if (typeof container !== 'string') return container;
         let box = document.getElementById(container);
@@ -63,7 +76,7 @@ const LowStockAlert = (function () {
         text.appendChild(title);
 
         const message = document.createElement('div');
-        message.textContent = low.length + (low.length === 1 ? ' item is' : ' items are') + ' running low!';
+        message.textContent = getMessage(low);
         message.style.cssText = 'font-size:13px;margin-top:4px;';
         text.appendChild(message);
 
