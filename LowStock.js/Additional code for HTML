@@ -1,30 +1,43 @@
 /*
   low-stock.js - Avila
- 
+
   Shows a red "Low Stock Alert" card for items that are low or out of stock.
   Clicking "View Items →" opens the page that shows only the low stock items.
- 
+
   How to add it on the page:
   1. In your HTML, add this above your own <script> tag so it loads first:
+
      <script src="js/low-stock.js"></script>
+
   2. In your JS, after your items are loaded, call:
+
      LowStockAlert.render(items, 'low-stock-box');
+
      Call it again after you add, edit or delete an item.
+
   3. (Optional) To choose where the alert appears, put this in your HTML.
      If you skip it, the alert shows at the top of the page:
+
      <div id="low-stock-box"></div>
+
   4. (Optional) The "View Items" button goes to my_items.php?low_stock=1
      by default. To use a different page, call this before render():
+
      LowStockAlert.setViewItemsLink('my_items.php?low_stock=1');
+
      That page must show only the low stock items when it opens
+
      (if it uses JavaScript, LowStockAlert.getLowItems(items) gives
      you just the low and out of stock items).
- 
+
   Each item needs name, quantity and restock_level.
+
   Example: { name: 'Ballpen', quantity: 3, restock_level: 5 }
- 
+
   Low means quantity is at or below restock_level.
   Out of stock means quantity is 0.
+  The card shows low and out of stock items separately,
+  for example: 2 items are running low, 1 out of stock!
   The card hides itself when nothing is low.
 */
  
@@ -59,6 +72,19 @@ const LowStockAlert = (function () {
             .sort(function (a, b) {
                 return Number(a[LOW_STOCK_FIELDS.quantity]) - Number(b[LOW_STOCK_FIELDS.quantity]);
             });
+    }
+
+    // Builds the alert text, counting low and out of stock items separately
+    function getMessage(low) {
+        const outCount = low.filter(function (item) { return getStatus(item) === 'out'; }).length;
+        const lowCount = low.length - outCount;
+
+        const lowText = lowCount + (lowCount === 1 ? ' item is' : ' items are') + ' running low';
+        const outText = outCount + (outCount === 1 ? ' item is' : ' items are') + ' out of stock';
+
+        if (outCount === 0) return lowText + '!';
+        if (lowCount === 0) return outText + '!';
+        return lowCount + (lowCount === 1 ? ' item is' : ' items are') + ' running low, ' + outCount + ' out of stock!';
     }
 
     function findBox(container) {
@@ -98,7 +124,7 @@ const LowStockAlert = (function () {
         text.appendChild(title);
 
         const message = document.createElement('div');
-        message.textContent = low.length + (low.length === 1 ? ' item is' : ' items are') + ' running low!';
+        message.textContent = getMessage(low);
         message.style.cssText = 'font-size:13px;margin-top:4px;';
         text.appendChild(message);
 
