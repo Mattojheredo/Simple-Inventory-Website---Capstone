@@ -1,10 +1,10 @@
 /*
   low-stock.js - Avila
-
+ 
   Shows a red "Low Stock Alert" card for items that are low or out of stock.
   Clicking "View Items →" opens the page that shows only the low stock items.
-
-  How to use it on your page:
+ 
+  How to add it on the page:
   1. In your HTML, add this above your own <script> tag so it loads first:
      <script src="js/low-stock.js"></script>
   2. In your JS, after your items are loaded, call:
@@ -16,14 +16,18 @@
   4. (Optional) The "View Items" button goes to my_items.php?low_stock=1
      by default. To use a different page, call this before render():
      LowStockAlert.setViewItemsLink('my_items.php?low_stock=1');
-
+     That page must show only the low stock items when it opens
+     (if it uses JavaScript, LowStockAlert.getLowItems(items) gives
+     you just the low and out of stock items).
+ 
   Each item needs name, quantity and restock_level.
   Example: { name: 'Ballpen', quantity: 3, restock_level: 5 }
-
+ 
   Low means quantity is at or below restock_level.
   Out of stock means quantity is 0.
   The card hides itself when nothing is low.
 */
+ 
 
 ======================================================================================
 js
@@ -77,7 +81,10 @@ const LowStockAlert = (function () {
         box.innerHTML = '';
         box.classList.add('low-stock-alert');
         box.hidden = low.length === 0;
-        if (low.length === 0) return;
+        if (low.length === 0) {
+            box.style.cssText = 'display:none;';
+            return;
+        }
 
         // Red alert card, like the dashboard
         box.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:16px;' +
