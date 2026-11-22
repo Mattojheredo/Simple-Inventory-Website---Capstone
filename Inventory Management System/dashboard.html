@@ -1,79 +1,85 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventory Management System</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Inventory Dashboard</title>
+
 </head>
+
+
 <body>
-  <div class="wrapper">
-    <nav class="sidebar">
-  <button id="toggle" aria-label="Toggle menu">
-    <span class="material-symbols-outlined">menu</span>
-  </button>
 
-  <div class="brand-name">
-    <a href="index.html"><span class="text">IMS</span></a>
-  </div>
+    <h1>Inventory Dashboard</h1>
 
-  <ul>
-    <li>
-      <a href="dashboard.html">
-        <span class="material-symbols-outlined">home</span>
-        <span class="text">Dashboard</span>
-      </a>
-    </li>
+    <div class="dashboard">
 
-    <li>
-  <details>
-    <summary>
-      <a href="products.html">
-        <span class="material-symbols-outlined">inventory_2</span>
-        <span class="text">Items</span>
-      </a>
-      <span class="material-symbols-outlined arrow">chevron_left</span>
-    </summary>
-    <ul class="submenu">
-      <li><a href="view-items.html"><span class="text">View Items</span></a></li>
-      <li><a href="add-item.html"><span class="text">Add Item</span></a></li>
-    </ul>
-  </details>
-</li>
+        <!-- total items -->
+        <div class="card">
+            <h3>Total Items</h3>
+            <h2 class="total" id="totalItems">0</h2>
+        </div>
 
-    <li>
-      <a href="history.html">
-        <span class="material-symbols-outlined">history</span>
-        <span class="text">History</span>
-      </a>
-    </li>
+        <!-- low stock -->
+        <div class="card">
+            <h3>Low Stock Count</h3>
+            <h2 class="low" id="lowStock">0</h2>
+        </div>
 
-    <li>
-      <a href="grocery-list.html">
-        <span class="material-symbols-outlined">checklist</span>
-        <span class="text">Grocery List</span>
-      </a>
-    </li>
-  </ul>
-</nav>
+        <div class="card">
+            <h1>Inventory Infomation</h1>
+            
+            <table border="1" cellpadding="10">
+        <tr>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Quantity</th>
+        </tr>
+        <tbody id="inventoryTable"></tbody>
+    </table>
 
+        </div>
 
-
-
-
-
-
-
-    <div class="main-content">
-<!-- PUT YOUR CONTENTS HERE -->
-      <header>Hello mga guys!</header>
-      <main>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit, adipisci. Architecto fugiat alias dolores blanditiis quis rem officia explicabo! Enim assumenda perferendis aperiam atque provident! Veniam sunt consectetur commodi sint.</p>
-      </main>
     </div>
-  </div>
 
-  <script src="js/script.js"></script>
+    <script>
+
+        // Inventory
+        let inventory = [
+            { name: "item1", category: "N/A", quantity: 3 },
+            { name: "item2", category: "N/A", quantity: 2 },
+            { name: "item3", category: "N/A", quantity: 5 },
+            { name: "item4", category: "N/A", quantity: 4 },
+            { name: "item5", category: "N/A", quantity: 3 },
+            { name: "item6", category: "N/A", quantity: 1 }
+        ];
+
+        // Number of total items
+        let totalItems = inventory.length;
+
+        // Numbe of low stock
+        let lowStock = inventory.filter(
+            item => item.quantity <= 5 && item.quantity > 0
+        ).length;
+
+        // Display Results
+        document.getElementById("totalItems").innerText = totalItems;
+
+        document.getElementById("lowStock").innerText = lowStock;
+
+        inventory.forEach(item => {
+            document.getElementById("inventoryTable").innerHTML += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td>${item.quantity}</td>
+                </tr>
+            `;
+        });
+    </script>
+
 </body>
 </html>
