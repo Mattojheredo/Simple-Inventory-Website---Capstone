@@ -1,78 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventory Management System</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventory Management System</title>
+<style>
+  .grocery-page { max-width: 560px; margin: 0 auto; padding: 16px; font-family: system-ui, sans-serif; }
+  .grocery-page, .grocery-page * { box-sizing: border-box; }
+  .grocery-page header { font-size: 1.5rem; font-weight: 700; }
+  .grocery-page .tagline, .grocery-page .summary { opacity: .7; font-size: .85rem; margin: 4px 0 16px; }
+  .grocery-page .add-row { display: flex; gap: 8px; }
+  .grocery-page .input { flex: 1; min-width: 0; padding: 12px 14px; font-size: 1rem; color: inherit; background: transparent; border: 1px solid rgba(128,128,128,.45); border-radius: 10px; }
+  .grocery-page .btn { padding: 12px 18px; font-size: 1rem; font-weight: 600; color: #fff; background: #4f7cff; border: 0; border-radius: 10px; cursor: pointer; }
+  .grocery-page .btn:hover { background: #3f6af0; }
+  .grocery-page .grocery-list { list-style: none; margin: 0; padding: 0; }
+  .grocery-page .grocery-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; padding: 10px 12px; background: rgba(128,128,128,.12); border: 1px solid rgba(128,128,128,.3); border-radius: 10px; }
+  .grocery-page .item-check { width: 20px; height: 20px; accent-color: #4f7cff; cursor: pointer; }
+  .grocery-page .item-name { flex: 1; word-break: break-word; }
+  .grocery-page .done .item-name { text-decoration: line-through; opacity: .55; }
+  .grocery-page .delete-btn { padding: 4px 8px; font-size: 1.1rem; color: #e5484d; background: none; border: 0; border-radius: 6px; cursor: pointer; }
+  .grocery-page .empty-message { padding: 24px 0; text-align: center; opacity: .6; }
+</style>
 </head>
 <body>
-  <div class="wrapper">
-    <nav class="sidebar">
-  <button id="toggle" aria-label="Toggle menu">
-    <span class="material-symbols-outlined">menu</span>
-  </button>
-
-  <div class="brand-name">
-    <a href="index.html"><span class="text">IMS</span></a>
+<main>
+  <div class="grocery-page">
+    <header>Grocery List</header>
+    <p class="tagline">Track • Check • Delete</p>
+    <form class="add-row" id="add-form">
+      <input id="item-input" class="input" type="text" placeholder="Mag-add ng item (hal. Bigas)" autocomplete="off">
+      <button id="add-btn" class="btn" type="submit">Add Item</button>
+    </form>
+    <div id="summary" class="summary"></div>
+    <ul id="grocery-list" class="grocery-list"></ul>
   </div>
+</main>
 
-  <ul>
-    <li>
-      <a href="dashboard.html">
-        <span class="material-symbols-outlined">home</span>
-        <span class="text">Dashboard</span>
-      </a>
-    </li>
+<script>
+(function () {
+  var KEY = "grocery-list-items-v2";
+  var defaults = [
+    "Bigas (5 kg)", "Itlog (1 tray)", "Sardinas (de lata)", "Corned beef", "Instant pancit canton",
+    "Instant noodles (mami)", "Kape (3-in-1)", "Gatas (evaporada / powdered)", "Toyo", "Suka", "Patis",
+    "Mantika (cooking oil)", "Asukal", "Asin", "Bawang at sibuyas", "Kamatis", "Tinapay (pandesal / sliced)",
+    "Longganisa / hotdog", "Tuyo / daing", "Saging", "Sabon panlaba (detergent)", "Sabon at shampoo", "Tubig (galon)",
+    "Spam / luncheon meat", "Tuna (de lata)", "Mackerel sa tomato sauce", "Meat loaf", "Beef loaf", "Century tuna",
+    "Ketchup (banana catsup)", "Mayonnaise", "Peanut butter", "Tomato sauce", "Spaghetti pasta",
+    "Manok (whole o hiwa)", "Baboy (liempo, kasim)", "Bangus", "Tilapia", "Galunggong", "Hipon", "Kangkong",
+    "Talong", "Sitaw", "Okra", "Repolyo", "Carrots", "Patatas", "Luya", "Sili (siling labuyo)", "Kalamansi",
+    "Mangga", "Pinya", "Papaya", "Pakwan", "Dalandan",
+    "Skyflakes / crackers", "Biskwit", "Cereal / oatmeal", "Chichirya", "Tinapay na may palaman",
+    "Bearbrand","Birch Tree", "Juice (powdered)", "Milo / Ovaltine", "Energen",
+    "Magic Sarap", "Knorr cubes / sinigang mix", "Paminta", "Tomato paste", "Harina", "Baking powder", "Cornstarch",
+    "Bioderm","Safeguard", "Toothpaste", "Toothbrush", "Shampoo (sachet)", "Conditioner", "Deodorant",
+    "Tissue", "Napkin", "Diaper", "Dishwashing liquid", "Zonrox", "Fabric conditioner",
+    "Garbage bag", "Alcohol / sanitizer", "Posporo","Lighter", "Kandila", "Battery", "Gin", "Yosi"
+  ];
 
-    <li>
-  <details>
-    <summary>
-      <a href="products.html">
-        <span class="material-symbols-outlined">inventory_2</span>
-        <span class="text">Items</span>
-      </a>
-      <span class="material-symbols-outlined arrow">chevron_left</span>
-    </summary>
-    <ul class="submenu">
-      <li><a href="view-items.html"><span class="text">View Items</span></a></li>
-      <li><a href="add-item.html"><span class="text">Add Item</span></a></li>
-    </ul>
-  </details>
-</li>
+  var form = document.getElementById("add-form");
+  var input = document.getElementById("item-input");
+  var summary = document.getElementById("summary");
+  var list = document.getElementById("grocery-list");
+  var items = load();
 
-    <li>
-      <a href="history.html">
-        <span class="material-symbols-outlined">history</span>
-        <span class="text">History</span>
-      </a>
-    </li>
+  function load() {
+    try { var s = localStorage.getItem(KEY); if (s) return JSON.parse(s); } catch (e) {}
+    return defaults.map(function (n) { return { name: n, done: false }; });
+  }
 
-    <li>
-      <a href="grocery-list.html">
-        <span class="material-symbols-outlined">checklist</span>
-        <span class="text">Grocery List</span>
-      </a>
-    </li>
-  </ul>
-</nav>
+  function update() {                       // save + iguhit ulit ang listahan
+    try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (e) {}
+    render();
+  }
 
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    e.className = cls;
+    if (text) e.textContent = text;         // textContent: safe sa HTML injection
+    return e;
+  }
 
+  function render() {
+    list.innerHTML = "";
+    if (!items.length) list.appendChild(el("div", "empty-message", "Wala nang laman ang listahan."));
 
+    items.forEach(function (item) {
+      var li = el("li", "grocery-item" + (item.done ? " done" : ""));
+      var cb = el("input", "item-check");
+      cb.type = "checkbox";
+      cb.checked = item.done;
+      cb.onchange = function () { item.done = !item.done; update(); };          // CHECK / UNCHECK
 
+      var del = el("button", "delete-btn", "✕");
+      del.type = "button";
+      del.title = "Delete";
+      del.onclick = function () { items = items.filter(function (i) { return i !== item; }); update(); };  // DELETE
 
+      li.append(cb, el("span", "item-name", item.name), del);
+      list.appendChild(li);
+    });
 
+    summary.textContent = items.filter(function (i) { return i.done; }).length + " sa " + items.length + " ang nabili na";
+  }
 
-    <div class="main-content">
-<!-- PUT YOUR CONTENTS HERE -->
-      <header>Hello mga guys!</header>
-      <main>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit, adipisci. Architecto fugiat alias dolores blanditiis quis rem officia explicabo! Enim assumenda perferendis aperiam atque provident! Veniam sunt consectetur commodi sint.</p>
-      </main>
-    </div>
-  </div>
+  form.addEventListener("submit", function (e) {   // ADD
+    e.preventDefault();                            // para hindi mag-refresh ang page
+    var name = input.value.trim();
+    if (!name) return;
+    items.push({ name: name, done: false });
+    input.value = "";
+    update();
+  });
 
-  <script src="js/script.js"></script>
+  render();
+})();
+</script>
 </body>
 </html>
